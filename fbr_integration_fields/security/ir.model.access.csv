@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_tax_configuration_user,access.account_tax_configuration.user,model_account_tax_configuration_custom,base.group_user,1,1,1,1
+access_sale_type,access.sale.type,model_sale_type,base.group_user,1,1,1,1
+access_fbr_province,access.fbr_province,model_fbr_province,base.group_user,1,1,1,1
+access_fbr_document_type,access.fbr.document.type,model_fbr_document_type,base.group_user,1,1,1,1
+access_fbr_item_code,access.fbr.item.code,model_fbr_item_code,base.group_user,1,1,1,1
+access_fbr_uom,access.fbr.uom,model_fbr_uom,base.group_user,1,1,1,1
+access_fbr_config,access.fbr.config,model_fbr_config,base.group_user,1,1,1,1
+access_fbr_scenario,access.fbr.scenario,model_fbr_scenario,base.group_user,1,1,1,1
+access_buyer_type,access.buyer_type,model_buyer_type,base.group_user,1,1,1,1
+

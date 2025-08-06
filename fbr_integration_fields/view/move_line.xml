@@ -1,0 +1,71 @@
+<odoo>
+
+<record id="view_move_form_inherit_fbr" model="ir.ui.view">
+    <field name="name">account.move.form.fbr</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="before">
+            <field name="fbr_invoice_number" readonly="1"/>
+            <field name="hsCode" readonly="1"/>
+
+            <field name="unit_of_measure" readonly="1"/>
+
+        </xpath>
+        <xpath expr="//field[@name='discount']" position="replace">
+            <field name="discount" optional="show"/>
+        </xpath>
+        <xpath expr="//field[@name='discount']" position="after">
+            <field name="discount_amount" />
+        </xpath>
+        <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']" position="after">
+            <!--<field name="valueSalesExcludingST" options="{'width': '120px'}"/>send_to_fbr-->
+            <field name="mrp"/>
+            <field name="salesTaxApplicable" options="{'width': '120px'}"/>
+
+        </xpath>
+       <xpath expr="//field[@name='price_subtotal']" position="after">
+           <button type="object" name="delete_tax_lines" string="Delete Tax"/>
+           <field name="salestaxwithheldatsourceper" />
+            <field name="salesTaxWithheldAtSource"  />
+            <field name="extrataxper" optional="show"/>
+            <field name="extraTax" readonly="1" optional="show" force_save="1"/>
+            <field name="furthertaxper" optional="show"/>
+            <field name="furtherTax" readonly="1" optional="show" force_save="1"/>
+            <field name="sroScheduleNo" options="{'width': '120px'}"/>
+            <field name="fedPayable" readonly="1" force_save="1"/>
+<field name="sale_type_id" readonly="1" options="{'width': '100px'}"/>
+            <field name="sroItemSerialNo" options="{'width': '120px'}"/>
+       </xpath>
+    </field>
+</record>
+    <record model="ir.ui.view" id="product_template_form_view_inherit">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='detailed_type']" position="after">
+               <field name="hs_code"/>
+               <field name="is_fed"/>
+               <field name="fed_per" invisible="is_fed == False"/>
+               <field name="fbr_unit_of_measure"/>
+<field name="sale_type_id"/>
+           </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="product_product_form_view_inherit">
+        <field name="name">product.product.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='detailed_type']" position="after">
+               <field name="hs_code"/>
+               <field name="is_fed"/>
+               <field name="fed_per" invisible="is_fed == False"/>
+               <field name="fbr_unit_of_measure"/>
+               <field name="sale_type_id"/>
+           </xpath>
+        </field>
+    </record>
+
+</odoo>

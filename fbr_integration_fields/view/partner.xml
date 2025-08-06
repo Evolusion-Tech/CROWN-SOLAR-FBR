@@ -1,0 +1,17 @@
+<odoo>
+ <record id="res_partner_view_form_fbr_custom" model="ir.ui.view">
+        <field name="name">res.partner.form.fbr.custom</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="bussiness_name" invisible="1"/>
+                <field name="buyer_type_id"/>
+            </xpath>
+            <xpath expr="//field[@name='state_id']" position="replace">
+                <field name="state_id" invisible="1"/>
+                <field name="province_id"/>
+            </xpath>
+        </field>
+ </record>
+</odoo>

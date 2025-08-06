@@ -1,0 +1,20 @@
+<odoo>
+         <record id="view_fbr_uom_tree" model="ir.ui.view">
+        <field name="name">fbr.uom.tree</field>
+        <field name="model">fbr.uom</field>
+        <field name="arch" type="xml">
+            <tree string="Fbr Uom" >
+                <field name="uom_id"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="action_fbr_uom" model="ir.actions.act_window">
+    <field name="name">FBR Uom</field>
+    <field name="res_model">fbr.uom</field>
+    <field name="view_mode">list</field>
+    <field name="target">current</field>
+</record>
+
+</odoo>

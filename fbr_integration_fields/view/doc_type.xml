@@ -1,0 +1,24 @@
+<odoo>
+       <record id="view_fbr_doc_type_tree" model="ir.ui.view">
+        <field name="name">fbr.document.type.tree</field>
+        <field name="model">fbr.document.type</field>
+        <field name="arch" type="xml">
+            <tree string="Fbr Document Type" >
+                <field name="doc_type_id"/>
+                <field name="doc_description"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="action_fbr_doc_type" model="ir.actions.act_window">
+    <field name="name">FBR Document Type</field>
+    <field name="res_model">fbr.document.type</field>
+    <field name="view_mode">list</field>
+    <field name="target">current</field>
+</record>
+     <!--<menuitem id="menu_fbr_doc_type"
+              name="Fbr Document Type"
+               action="action_fbr_doc_type"
+               parent="fbr_integration_fields.menu_fbr_configuration_new"
+              sequence="20"/>-->
+</odoo>

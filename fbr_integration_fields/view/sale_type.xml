@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_sale_type_tree" model="ir.ui.view">
+        <field name="name">sale.type.tree</field>
+        <field name="model">sale.type</field>
+        <field name="arch" type="xml">
+            <tree string="Sale Type" editable="bottom">
+                <field name="type_id"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_sale_type_configuration" model="ir.actions.act_window">
+        <field name="name">Sale Type</field>
+        <field name="res_model">sale.type</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Sale Types
+            </p>
+        </field>
+    </record>
+     <menuitem id="menu_sale_type_configuration"
+              name="Sale Types"
+              parent="fbr_integration_fields.menu_fbr_configuration_new"
+              action="action_sale_type_configuration"
+              sequence="20"/>
+</odoo>

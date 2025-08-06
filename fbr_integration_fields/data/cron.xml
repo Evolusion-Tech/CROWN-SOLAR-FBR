@@ -1,0 +1,64 @@
+<odoo>
+       <data noupdate="1">
+            <record id="server_action_fetch_fbr_uom" model="ir.actions.server">
+            <field name="name">Fetch FBR UOM</field>
+            <field name="model_id" ref="product.model_product_template"/>
+                <field name="binding_model_id" ref="product.model_product_product" /><!-- replace with actual model -->
+            <field name="state">code</field>
+            <field name="code">records.fetch_fbr_uom()</field>
+        </record>
+
+
+        <record id="ir_cron_fetch_fbr_provinces" model="ir.cron">
+            <field name="name">Fetch FBR Provinces Daily</field>
+            <field name="model_id" ref="model_fbr_province"/>
+            <field name="state">code</field>
+            <field name="code">model.fetch_provinces_from_fbr()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+             <record id="ir_cron_fetch_fbr_doc_type" model="ir.cron">
+            <field name="name">Fetch FBR Document Type</field>
+            <field name="model_id" ref="model_fbr_document_type"/>
+            <field name="state">code</field>
+            <field name="code">model.fetch_doc_type_from_fbr()</field>
+            <field name="interval_number">7</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+             <record id="ir_cron_fetch_fbr_trans_type" model="ir.cron">
+            <field name="name">Fetch FBR Transaction Type</field>
+            <field name="model_id" ref="model_sale_type"/>
+            <field name="state">code</field>
+            <field name="code">model.fetch_transaction_type_from_fbr()</field>
+            <field name="interval_number">7</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+        <record id="ir_cron_fetch_fbr_item_code" model="ir.cron">
+            <field name="name">Fetch FBR Item Code</field>
+            <field name="model_id" ref="model_fbr_item_code"/>
+            <field name="state">code</field>
+            <field name="code">model.fetch_item_code_from_fbr()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+         <record id="ir_cron_fetch_fbr_uom" model="ir.cron">
+            <field name="name">Fetch FBR Uom</field>
+            <field name="model_id" ref="model_fbr_uom"/>
+            <field name="state">code</field>
+            <field name="code">model.fetch_uom_from_fbr()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,92 @@
+<odoo>
+    <menuitem id="menu_finance_receivables" name="Customers" sequence="2" parent="fbr_integration_fields.menu_fbr_configuration">
+            <menuitem id="menu_action_move_out_invoice_type" action="account.action_move_out_invoice_type" sequence="1"/>
+            <menuitem id="menu_action_move_out_refund_type" action="account.action_move_out_refund_type" sequence="2"/>
+            <menuitem id="menu_action_move_out_receipt_type" action="account.action_move_out_receipt_type" groups="account.group_sale_receipts" sequence="3"/>
+            <menuitem id="menu_action_account_payments_receivable" name="Payments" action="account.action_account_payments" sequence="15"/>
+            <menuitem id="product_product_menu_sellable" name="Products" action="account.product_product_action_sellable" sequence="100"/>
+            <menuitem id="menu_account_customer" name="Customers" action="account.res_partner_action_customer" sequence="110"/>
+        </menuitem>
+        <menuitem id="menu_finance_payables" name="Vendors" sequence="3" parent="fbr_integration_fields.menu_fbr_configuration">
+            <menuitem id="menu_action_move_in_invoice_type" action="account.action_move_in_invoice_type" sequence="1"/>
+            <menuitem id="menu_action_move_in_refund_type" action="account.action_move_in_refund_type" sequence="2"/>
+            <menuitem id="menu_action_move_in_receipt_type" action="account.action_move_in_receipt_type" groups="account.group_purchase_receipts" sequence="3"/>
+            <menuitem id="menu_action_account_payments_payable" name="Payments" action="account.action_account_payments_payable" sequence="20"/>
+            <!--<menuitem id="menu_account_supplier_accounts" name="Bank Accounts" action="account.action_account_supplier_accounts" sequence="80"/>-->
+            <menuitem id="product_product_menu_purchasable" name="Products" action="account.product_product_action_purchasable" sequence="100"/>
+            <menuitem id="menu_account_supplier" name="Vendors" action="account.res_partner_action_supplier" sequence="200"/>
+        </menuitem>
+    <menuitem id="menu_finance_entries" name="Accounting" sequence="4" groups="account.group_account_readonly" parent="fbr_integration_fields.menu_fbr_configuration">
+            <menuitem id="menu_finance_entries_accounting_miscellaneous" name="Journals" sequence="1">
+                <menuitem id="menu_action_move_journal_line_form" action="account.action_move_journal_line" groups="account.group_account_readonly" sequence="1"/>
+                <menuitem id="menu_action_account_moves_all" action="account.action_account_moves_all" groups="account.group_account_readonly" sequence="10"/>
+            </menuitem>
+        <menuitem id="menu_finance_entries_actions" name="Actions" sequence="11" groups="account.group_account_user">
+             <menuitem id="menu_account_reconcile" name="Reconcile"  action="account_accountant.action_move_line_posted_unreconciled" sequence="25" groups="account.group_account_user"/>
+            <menuitem
+            id="menu_action_change_lock_date"
+            name="Lock Dates"
+            action="account_accountant.action_view_account_change_lock_date"
+            sequence="55"
+            groups="account.group_account_manager"/>
+        </menuitem>
+        </menuitem>
+     <menuitem id="menu_finance_reports" name="Reporting" sequence="20" groups="account.group_account_readonly,account.group_account_invoice" parent="fbr_integration_fields.menu_fbr_configuration">
+          <menuitem id="account_reports_audit_reports_menu" name="Audit Reports"  sequence="2">
+        <menuitem id="menu_action_account_report_general_ledger" name="General Ledger" action="account_reports.action_account_report_general_ledger" groups="account.group_account_readonly"/>
+        <menuitem id="menu_action_account_report_coa" name="Trial Balance" action="account_reports.action_account_report_coa" groups="account.group_account_readonly"/>
+    </menuitem>
+
+         <menuitem id="account_reports_legal_statements_menu" name="Statement Reports" sequence="1" groups="account.group_account_readonly">
+             <menuitem id="menu_action_account_report_balance_sheet" name="Balance Sheet" action="account_reports.action_account_report_bs"  groups="account.group_account_readonly"/>
+            <menuitem id="menu_action_account_report_profit_and_loss" name="Profit and Loss" action="account_reports.action_account_report_pl"  groups="account.group_account_readonly"/>
+           <menuitem id="menu_action_account_report_gt" name="Tax Report" action="account_reports.action_account_report_gt"  sequence="50"/>
+         </menuitem>
+         <menuitem id="account_reports_partners_reports_menu" name="Partner Reports"  sequence="3">
+        <menuitem id="menu_action_account_report_partner_ledger" name="Partner Ledger" action="account_reports.action_account_report_partner_ledger" groups="account.group_account_readonly"/>
+         <menuitem id="menu_action_account_report_aged_payable" name="Aged Payable" action="account_reports.action_account_report_ap" groups="account.group_account_readonly"/>
+             <menuitem id="menu_action_account_report_aged_receivable" name="Aged Receivable" action="account_reports.action_account_report_ar" groups="account.group_account_readonly"/>
+
+    </menuitem>
+        </menuitem>
+    <menuitem id="menu_tax_account_configuration"
+              name="Tax Accounts Configuration"
+              parent="menu_fbr_configuration_new"
+              action="action_tax_account_configuration"
+              sequence="30"/>
+            <menuitem id="account_account_menu" name="Accounting" groups="account.group_account_manager" sequence="3"  parent="menu_fbr_configuration_new">
+                <menuitem id="menu_action_tax_form" action="account.action_tax_form" sequence="2"/>
+                <menuitem id="menu_action_account_journal_form" action="account.action_account_journal_form" groups="account.group_account_manager" sequence="3"/>
+                <menuitem id="menu_action_account_form" action="account.action_account_form" groups="account.group_account_readonly" sequence="1"/>
+
+            </menuitem>
+           <menuitem id="account_invoicing_menu" name="Invoicing" groups="account.group_account_invoice,account.group_account_readonly" sequence="1" parent="menu_fbr_configuration_new">
+                <menuitem id="menu_action_payment_term_form" action="account.action_payment_term_form" sequence="1"/>
+            </menuitem>
+          <menuitem id="menu_fbr_uom"
+              name="Unit Of Measure"
+               action="action_fbr_uom"
+               parent="fbr_integration_fields.menu_fbr_configuration_new"
+              sequence="80"/>
+      <menuitem id="menu_fbr_scenario"
+              name="Fbr Scenario"
+               action="action_fbr_scenario"
+               parent="fbr_integration_fields.menu_fbr_configuration_new"
+              sequence="81"/>
+      <menuitem id="menu_fbr_province"
+              name="Fbr Province"
+               action="action_fbr_province"
+               parent="fbr_integration_fields.menu_fbr_configuration_new"
+              sequence="82"/>
+     <menuitem id="menu_fbr_buyer_type"
+              name="Fbr Buyer Type"
+               action="action_fbr_buyer_type"
+               parent="fbr_integration_fields.menu_fbr_configuration_new"
+              sequence="83"/>
+     <menuitem id="account_management_menu" name="Management" groups="account.group_account_manager" sequence="5"  parent="fbr_integration_fields.menu_fbr_configuration_new">
+                <menuitem id="menu_product_product_categories" action="product.product_category_action_form" sequence="3"/>
+              <menuitem id="product_catalog_product_tags"
+                name="Product Tags"
+                action="product.product_tag_action"/>
+            </menuitem>
+</odoo>

@@ -1,0 +1,379 @@
+<odoo>
+    <record id="view_move_form_fbr_button" model="ir.ui.view">
+        <field name="name">account.move.form.fbr.button</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_draft']" position="replace">
+                <field name="sent_to_fbr" invisible="1"/>
+                <button name="button_draft" string="Reset to Draft" type="object" groups="account.group_account_invoice" invisible="not show_reset_to_draft_button or sent_to_fbr == True" data-hotkey="r"/>
+            </xpath>
+            <xpath expr="//button[@name='preview_invoice']" position="replace">
+                 <button name="preview_invoice" type="object" string="Preview" data-hotkey="o" title="Preview invoice" invisible="1"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                 <!--<button name="get_rate"
+                        type="object"
+                        string="Get Rate"
+                        class="btn-primary" invisible="state != 'draft'"/>-->
+                <button name="send_to_fbr"
+                        type="object"
+                        string="Send to FBR"
+                        class="btn-primary" invisible="state != 'posted'"/>
+
+            </xpath>
+
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="show_fbr_sandbox_fields" invisible="1"/>
+                <field name="fbr_invoice_number" readonly="1"/>
+                <field name="scenario_id" invisible="show_fbr_sandbox_fields == False"/>
+            </xpath>
+
+            <xpath expr="//group" position="before">
+                <div class="oe_title" style="margin-left:190px;">
+                    <field name="fbr_qr_code" nolabel="1" widget="image" class="oe_avatar"
+                           options="{'preview_image': 'fbr_qr_code'}"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <template id="report_fbr_qr_code">
+        <div class="fbr-qr-box">
+
+            <!-- FBR Logo and Text -->
+            <div style="text-align: center;">
+                <img t-att-src="'/fbr_integration/static/src/img/fbr-logo.png'" style="width: 160px;height:160px;"/>
+            </div>
+
+            <!-- QR Code Section -->
+            <div style="text-align: center; margin-top: 15px;">
+                <t t-if="o.fbr_qr_code">
+                    <img t-attf-src="data:image/png;base64,{{o.fbr_qr_code}}"
+                         style="border: 1px solid red; height: 160px; width: 160px;"/>
+                </t>
+            </div>
+
+        </div>
+    </template>
+    <template id="document_tax_totals" inherit_id="account.document_tax_totals">
+        <xpath expr="//t[@t-call='account.tax_groups_totals']" position="before">
+            <!--   Withheld Tax   -->
+            <!--          <tr t-if="o.withheld_tax and o.withheld_tax != 0.0">  -->
+            <!--              <td><strong>Withheld Tax</strong></td>  -->
+            <!--              <td class="text-right" style="text-align: right;">  -->
+            <!--                  <span t-esc="o.withheld_tax" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>  -->
+            <!--              </td>  -->
+            <!--          </tr>  -->
+            <t t-if="o.tax_totals.get('sales_tax_withheld_total')">
+                <tr>
+                    <td>
+                        <strong>Total Sales Tax Withheld</strong>
+                    </td>
+                    <td class="text-right" style="text-align: right;">
+                        <span t-esc="o.tax_totals.get('sales_tax_withheld_total')"/>
+                    </td>
+                </tr>
+            </t>
+            <!--   Extra Tax   -->
+            <tr t-if="o.tax_totals.get('extra_tax') and o.tax_totals.get('extra_tax') != 0.0">
+                <td>
+                    <strong>Extra Tax</strong>
+                </td>
+                <td class="text-right" style="text-align: right;">
+                    <span t-esc="o.tax_totals.get('extra_tax')"/>
+                </td>
+            </tr>
+            <!--   Further Tax   -->
+            <tr t-if="o.tax_totals.get('further_tax') and o.tax_totals.get('further_tax') != 0.0">
+                <td>
+                    <strong>Further Tax</strong>
+                </td>
+                <td class="text-right" style="text-align: right;">
+                    <span t-esc="o.tax_totals.get('further_tax')"/>
+                </td>
+            </tr>
+            <!--   Fed Payable   -->
+            <tr t-if="o.tax_totals.get('fedPayable') and o.tax_totals.get('fedPayable') != 0.0">
+                <td>
+                    <strong>Fed Payable</strong>
+                </td>
+                <td class="text-right" style="text-align: right;">
+                    <span t-esc="o.tax_totals.get('fedPayable')"/>
+                </td>
+            </tr>
+        </xpath>
+    </template>
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <!--      <xpath expr="//div[@class='row']" position="before">  -->
+        <!--      <div class="row mb-3" style="margin-top: 10px;">  -->
+        <!--        <div class="col-6">  -->
+        <!--          &lt;!&ndash; Left side: Company or logo can stay here &ndash;&gt;  -->
+        <!--        </div>  -->
+        <!--        <div class="col-6 text-end">  -->
+        <!--          <p><strong>Invoice Number:</strong> <t t-esc="o.name"/></p>  -->
+        <!--          <p><strong>Invoice Date:</strong> <t t-esc="o.invoice_date"/></p>  -->
+        <!--          <p><strong>Due Date:</strong> <t t-esc="o.invoice_date_due"/></p>  -->
+        <!--          <p><strong>Customer Code:</strong> <t t-esc="o.partner_id.ref or ''"/></p>  -->
+        <!--          &lt;!&ndash; FBR Badge &ndash;&gt;  -->
+        <!--          <div style="display: inline-block; background-color: #28a745; color: white; padding: 5px 10px; font-weight: bold; border-radius: 4px; margin-top: 5px;">  -->
+        <!--            THIS DOCUMENT IS REPORTED TO FBR  -->
+        <!--          </div>  -->
+        <!--        </div>  -->
+        <!--      </div>  -->
+        <!--    </xpath>  -->
+        <!--xpath expr="//div[@class='mb-3' and p[@name='payment_communication']]" position="replace"/>-->
+        <!--   Replace Customer Code block   -->
+        <!--<xpath expr="//div[@name='customer_code']" position="replace">-->
+        <!--   Your new content here or leave empty to remove   -->
+        <!--</xpath>-->
+        <!--   Replace Invoice Date block   -->
+        <!--<xpath expr="//div[@name='invoice_date']" position="replace">
+
+        </xpath>-->
+        <!--<xpath expr="//div[@class='row']" position="replace">
+        <div class="row mb-3" style="margin-top: 10px;">
+        <div class="col-6">
+
+        </div>
+        <div class="col-6 text-end">
+        <p style="font-weight: bold; font-size: 22px; color: #000;">
+        Invoice Number:
+        <t t-esc="o.name"/>
+        </p>
+        <p>
+        <strong>Invoice Date:</strong>
+        <t t-esc="o.invoice_date"/>
+        </p>
+        <p>
+        <strong>Due Date:</strong>
+        <t t-esc="o.invoice_date_due"/>
+        </p>
+        <p>
+        <strong>Customer Code:</strong>
+        <t t-esc="o.partner_id.ref or ''"/>
+        </p>
+
+        <div style="display: inline-block; background-color: #28a745; color: white; padding: 5px 10px; font-weight: bold; border-radius: 4px; margin-top: 5px;"> THIS DOCUMENT IS REPORTED TO FBR </div>
+        </div>
+        </div>
+        <div class="row mb-4" style="margin-bottom: 6px; display: flex; justify-content: space-between;">
+
+        <div class="col-6" style="border: 1px solid #ccc; padding: 8px 10px; border-radius: 6px; width: 47.5%; background-color: #f2f2f2;">
+        <h4 style="margin: 0 0 6px 0;">From:</h4>
+        <p style="margin: 0 0 4px 0;">
+        <strong>Company:</strong>
+        <t t-esc="o.company_id.name"/>
+        </p>
+        <p style="margin: 0 0 4px 0;">
+        <strong>Address:</strong>
+        <t t-esc="o.company_id.partner_id.contact_address"/>
+        </p>
+        <p style="margin: 0 0 4px 0;">
+        <strong>Phone:</strong>
+        <t t-esc="o.company_id.phone or ''"/>
+        </p>
+        <p style="margin: 0 0 4px 0;">
+        <strong>Email:</strong>
+        <t t-esc="o.company_id.email or ''"/>
+        </p>
+        <p style="margin: 0 0 4px 0;">
+        <strong>Website:</strong>
+        <t t-esc="o.company_id.website or ''"/>
+        </p>
+        <p style="margin: 0;">
+        <strong>NTN Number:</strong>
+        <t t-esc="o.company_id.partner_id.vat or ''"/>
+        </p>
+        </div>
+
+        <div class="col-6" style="border: 1px solid #ccc; padding: 8px 10px; border-radius: 6px; width: 47.5%;">
+        <h4 style="margin: 0 0 6px 0;">To:</h4>
+        <p style="margin: 0 0 4px 0;">
+        <strong>Company Name:</strong>
+        <t t-esc="o.partner_id.name"/>
+        </p>
+        <p style="margin: 0 0 4px 0;">
+        <strong>Address:</strong>
+        <t t-esc="o.partner_id.contact_address"/>
+        </p>
+        <p style="margin: 0;">
+        <strong>NTN Number:</strong>
+        <t t-esc="o.partner_id.vat or ''"/>
+        </p>
+        </div>
+        </div>
+        </xpath>-->
+        <!--<xpath expr="//table[@name='invoice_line_table']" position="before">
+        <div style="text-align: right; margin-bottom: 10px;">
+        <strong>Amount In:</strong>
+        <t t-esc="o.currency_id.name"/>
+        </div>
+        </xpath>-->
+        <!--   Add TH for Withheld Tax after Taxes column   -->
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_description']" position="before">
+            <th name="th_hs_code" class="text-end">
+                <span>Hs Code</span>
+            </th>
+        </xpath>
+
+        <xpath expr="//table[@name='invoice_line_table']//td[@name='account_invoice_line_name']" position="before">
+            <td name="td_hs_code" class="text-center">
+                <t t-out="line.hsCode"/>
+            </td>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_subtotal']" position="after">
+            <t t-set="lines"
+               t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+            <t t-set="furtherTax" t-value="0"/>
+            <t t-set="ExtraTax" t-value="0"/>
+            <t t-set="fedPayable" t-value="0"/>
+            <t t-foreach="lines" t-as="line">
+                <t t-set="furtherTax" t-value="float(line.furtherTax)"/>
+                <t t-set="extraTax" t-value="float(line.extraTax)"/>
+                <t t-set="fedPayable" t-value="float(line.fedPayable)"/>
+            </t>
+              <t t-if="furtherTax > 0">
+                <th name="th_further_tax" >
+                    <span>Further Tax</span>
+                </th>
+            </t>
+            <t t-if="extraTax > 0">
+                <th name="th_extra_tax" >
+                    <span>Extra Tax</span>
+                </th>
+            </t>
+            <t t-if="fedPayable > 0">
+                <th name="th_fed_pay" >
+                    <span>Fed Payable</span>
+                </th>
+            </t>
+            <th name="th_tax" >
+                <span>Tax incl</span>
+            </th>
+
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_subtotal']" position="replace">
+
+        </xpath>
+
+        <xpath expr="//table[@name='invoice_line_table']//td[@name='td_subtotal']" position="after">
+            <t t-set="furtherTax" t-value="float(0)"/>
+             <t t-if="float(line.furtherTax) > 0">
+                <td name="td_further_tax" class="text-end">
+                    <span class="text-nowrap" t-field="line.furtherTax"/>
+                    <t t-set="furtherTax" t-value="float(line.furtherTax)"/>
+                </td>
+            </t>
+             <t t-set="extraTax" t-value="float(0)"/>
+            <t t-if="float(line.extraTax) > 0">
+                <td name="td_extra_tax" class="text-end">
+                    <span class="text-nowrap" t-field="line.extraTax"/>
+                      <t t-set="extraTax" t-value="float(line.extraTax)"/>
+                </td>
+            </t>
+             <t t-set="fedPayable" t-value="float(0)"/>
+            <t t-if="float(line.fedPayable) > 0">
+                <td name="td_extra_tax" class="text-end">
+                    <span class="text-nowrap" t-field="line.fedPayable"/>
+                     <t t-set="fedPayable" t-value="float(line.fedPayable)"/>
+                </td>
+            </t>
+            <td name="td_tax_inclusive" class="text-end o_price_total">
+                <span class="text-nowrap" t-esc="line.price_total+furtherTax+extraTax+fedPayable"/>
+            </td>
+
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']//td[@name='td_subtotal']" position="replace">
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']//th[@name='th_quantity']" position="before">
+             <th name="th_uom">
+                Uom
+            </th>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']//td[@name='td_quantity']" position="before">
+              <td name="td_unit" class="text-end">
+                <span t-out="line.product_uom_id.name or ''"/>
+            </td>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']//td[@name='td_quantity']" position="replace">
+            <td name="td_unit" class="text-end">
+                <span t-field="line.quantity"/>
+            </td>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']//th[@name='th_taxes']" position="after">
+             <th name="th_excl_tax">
+                Tax Amount
+            </th>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']//th[@name='th_priceunit']" position="after">
+               <th name="th_subtotal" class="text-end">
+                <span>Tax excl</span>
+            </th>
+
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']//th[@name='th_priceunit']" position="replace">
+              <th name="th_priceunit"><span>Unit Price</span></th>
+        </xpath>
+
+        <xpath expr="//table[@name='invoice_line_table']//td[@name='td_price_unit']" position="after">
+              <td name="td_subtotal" class="text-end o_price_total">
+                                                <span class="text-nowrap" t-field="line.price_subtotal">27.00</span>
+               </td>
+
+        </xpath>
+         <xpath expr="//table[@name='invoice_line_table']//td[@name='td_taxes']" position="after">
+              <td name="td_excl_tax_amount" class="text-end">
+                <t t-out="line.salesTaxApplicable"/>
+
+            </td>
+         </xpath>
+        <xpath expr="//div[@id='payment_term']" position="replace">
+            <!--   Container block to keep all together   -->
+            <div style="margin-top: 15px; page-break-inside: avoid;">
+                <!--   FBR Invoice Number   -->
+                <div style="margin-bottom: 10px;">
+                    <strong>FBR INVOICE NUMBER:</strong>
+                    <span t-field="o.fbr_invoice_number"/>
+                </div>
+                <!--   Payment Terms   -->
+                <div style="margin-bottom: 20px;">
+                    <strong>Payment Terms:</strong>
+                    <span t-field="o.invoice_payment_term_id.name"/>
+                </div>
+                <!--   Image Row (No float, using table style layout)   -->
+                <div style="display: flex; gap: 10px; page-break-inside: avoid;">
+                    <img t-att-src="'/fbr_integration/static/src/img/fbr-logo.png'"
+                         style="height: 160px; width: 160px; margin: 0; padding: 0;"/>
+                    <img t-attf-src="data:image/png;base64,{{o.fbr_qr_code}}"
+                         style="border: 1px solid red; height: 160px; width: 160px;"/>
+                </div>
+            </div>
+        </xpath>
+        <!--  <xpath expr="//div[@id='payment_term']" position="replace">  -->
+        <!--    &lt;!&ndash; Bottom Images &ndash;&gt;  -->
+        <!--      &lt;!&ndash; Add FBR Invoice Number &ndash;&gt;  -->
+        <!--      <div style="margin-top: 15px;">  -->
+        <!--        <strong>FBR INVOICE NUMBER:</strong>  -->
+        <!--        <span t-field="o.fbr_invoice_number"/>  -->
+        <!--      </div>  -->
+        <!--      <div style="margin-top: 10px;">  -->
+        <!--    <strong>Payment Terms:</strong>  -->
+        <!--    <span t-field="o.invoice_payment_term_id.name"/>  -->
+        <!--  <div class="row" style="margin-top:30px; page-break-inside: avoid;">  -->
+        <!--      <div class="col-6" style="width: 45%; float: left;">  -->
+        <!--        <img t-att-src="'/fbr_integration/static/src/img/fbr-logo.png'"  -->
+        <!--             style="height: 160px; width: 160px; margin: 0; padding: 0; display: inline-block;" />  -->
+        <!--        <img t-attf-src="data:image/png;base64,{{o.fbr_qr_code}}"  -->
+        <!--             style="border: 1px solid red; height: 160px; width: 160px; margin-left: 10px;" />  -->
+        <!--      </div>  -->
+        <!--    </div>  -->
+        <!--      </div>  -->
+        <!--  </xpath>  -->
+        <!--         <xpath expr="//table[@name='invoice_line_table']" position="replace">  -->
+        <!--      </xpath>  -->
+        <!--        <xpath expr="//div[@id='total']" position="replace">  -->
+        <!--      <div class="row mt32 mb32" name="total" style="font-weight: bold; font-size: 14px;">  -->
+        <!--      </div>  -->
+        <!--    </xpath>  -->
+    </template>
+</odoo>

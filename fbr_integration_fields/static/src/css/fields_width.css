@@ -1,0 +1,86 @@
+th[data-name="fbr_invoice_number"]{
+          min-width: 200px !important;
+          max-width: 200px !important;
+          width: 200px !important;
+}
+th[data-name="hsCode"] {
+          min-width: 100px !important;
+          max-width: 100px !important;
+          width: 100px !important;
+}
+th[data-name="product_id"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+th[data-name="name"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+th[data-name="salesTaxApplicable"] {
+          min-width: 150px !important;
+          max-width: 150px !important;
+          width: 150px !important;
+}
+th[data-name="salestaxwithheldatsourceper"] {
+          min-width: 160px !important;
+          max-width: 160px !important;
+          width: 160px !important;
+}
+th[data-name="salesTaxWithheldAtSource"] {
+          min-width: 190px !important;
+          max-width: 190px !important;
+          width: 190px !important;
+}
+th[data-name="extrataxper"] {
+          min-width: 150px !important;
+          max-width: 150px !important;
+          width: 150px !important;
+}
+th[data-name="extraTax"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+th[data-name="furthertaxper"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+th[data-name="furtherTax"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+th[data-name="sroScheduleNo"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+th[data-name="fedPayable"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+th[data-name="discount"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+th[data-name="discount_amount"] {
+          min-width: 110px !important;
+          max-width: 110px !important;
+          width: 110px !important;
+}
+th[data-name="sale_type_id"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+th[data-name="sroItemSerialNo"] {
+          min-width: 130px !important;
+          max-width: 130px !important;
+          width: 130px !important;
+}
+

@@ -1,0 +1,51 @@
+<templates>
+    <t t-name="custom_tax_total" t-inherit="account.TaxTotalsField" t-inherit-mode="extension">
+        <xpath expr="//tr[td[label[contains(text(), 'Total')]]]" position="before">
+            <!-- Withheld Tax Row -->
+            <tr t-if="totals.sales_tax_withheld_total !== undefined and totals.sales_tax_withheld_total != 0.0">
+                <td class="o_td_label">
+                    <label class="o_form_label o_tax_total_label">Withheld Tax</label>
+                </td>
+                <td class="o_list_monetary">
+                    <span
+                        t-out="totals.formatted_sales_tax_withheld_total"
+                        style="white-space: nowrap;"
+                    />
+                </td>
+            </tr>
+             <tr t-if="totals.extra_tax !== undefined and totals.extra_tax != 0.0">
+                <td class="o_td_label">
+                    <label class="o_form_label o_tax_total_label">Extra Tax</label>
+                </td>
+                <td class="o_list_monetary">
+                    <span
+                        t-out="totals.formatted_extra_tax_total"
+                        style="white-space: nowrap;"
+                    />
+                </td>
+            </tr>
+             <tr t-if="totals.further_tax !== undefined and totals.further_tax != 0.0">
+                <td class="o_td_label">
+                    <label class="o_form_label o_tax_total_label">Further Tax</label>
+                </td>
+                <td class="o_list_monetary">
+                    <span
+                        t-out="totals.formatted_further_tax_total"
+                        style="white-space: nowrap;"
+                    />
+                </td>
+            </tr>
+            <tr t-if="totals.fedPayable !== undefined and totals.fedPayable != 0.0">
+                <td class="o_td_label">
+                    <label class="o_form_label o_tax_total_label">Fed Payable</label>
+                </td>
+                <td class="o_list_monetary">
+                    <span
+                        t-out="totals.formatted_fedPayable_total"
+                        style="white-space: nowrap;"
+                    />
+                </td>
+            </tr>
+        </xpath>
+    </t>
+</templates>

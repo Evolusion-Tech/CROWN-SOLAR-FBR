@@ -1,0 +1,38 @@
+<odoo>
+
+  <record id="action_fbr_view" model="ir.actions.client">
+    <field name="name">FBR</field>
+    <field name="tag">fbr_template</field>
+  </record>
+     <menuitem id="menu_fbr_configuration"
+              name="Fbr"
+               action="account.open_account_journal_dashboard_kanban"
+               web_icon="fbr_integration_fields,static/src/img/fbr-image.png"
+              sequence="20"/>
+    <record id="action_fbr_province" model="ir.actions.act_window">
+    <field name="name">FBR Provinces</field>
+    <field name="res_model">fbr.province</field>
+    <field name="view_mode">tree</field>
+    <field name="target">current</field>
+</record>
+      <record id="view_fbr_province_tree" model="ir.ui.view">
+        <field name="name">fbr.province.tree</field>
+        <field name="model">fbr.province</field>
+        <field name="arch" type="xml">
+            <tree string="Fbr Province" >
+                <field name="state_province_code"/>
+                <field name="state_province_desc"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem id="menu_fbr_configuration_new"
+              name="Configuration"
+               parent="fbr_integration_fields.menu_fbr_configuration"
+              sequence="70"/>
+    <!--<menuitem id="menu_fbr_province"
+              name="Fbr Province"
+               action="action_fbr_config"
+               parent="fbr_integration_fields.menu_fbr_configuration_new"
+              sequence="20"/>-->
+</odoo>
